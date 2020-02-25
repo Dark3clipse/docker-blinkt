@@ -40,8 +40,3 @@ RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 111 ubuntu
 RUN usermod -aG docker ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu
-
-
-# run command:
-# docker build -t jenkins-docker .
-# docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins-docker

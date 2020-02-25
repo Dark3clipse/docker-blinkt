@@ -1,0 +1,46 @@
+{
+  "name": "rpi-blinkt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config build/webpack.js",
+    "run": "./bin/docker-blinkt",
+    "start": "npm run build && npm run run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-blinkt": "^1.1.0",
+    "reflect-metadata": "^0.1.13",
+    "regenerator-runtime": "^0.13.3",
+    "typescript": "^3.7.2",
+    "wiringpi-node": "^2.4.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.7.0",
+    "@babel/preset-typescript": "^7.7.2",
+    "@types/node": "^11.15.2",
+    "@types/webpack-env": "^1.14.1",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-strip-decorator": "^1.0.0",
+    "babel-plugin-transform-typescript-metadata": "^0.2.2",
+    "babel-preset-minify": "^0.5.1",
+    "clean-webpack-plugin": "^2.0.2",
+    "copy-webpack-plugin": "^5.0.5",
+    "ts-node": "^8.5.2",
+    "tsconfig-paths": "^3.9.0",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

@@ -1,0 +1,47 @@
+FROM node:12.9.1
+
+USER root
+
+
+
+RUN if test $(uname -m) = "x86_64"; then \
+		a="amd64"; \
+	elif test $(uname -m) = "armhf"; then \
+		a="armhf"; \
+	elif test $(uname -m) = "aarch64"; then \
+		a="arm64"; \
+	fi && \
+    apt-get update -qq && \
+	apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common && \
+	curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+	add-apt-repository \
+   		"deb [arch=${a}] https://download.docker.com/linux/debian \
+   		$(lsb_release -cs) \
+   		stable" && \
+	apt-get update -qq && \
+	apt-get install -qqy docker-ce docker-ce-cli containerd.io
+
+
+
+#RUN curl -L "https://github.com/ubiquiti/docker-compose-aarch64/releases/download/1.25.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+#	&& chmod +x /usr/local/bin/docker-compose \
+#	&& ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+
+
+# install compose
+RUN apt-get install -qqy python3-pip && \
+	pip3 install docker-compose
+
+
+RUN apt-get install jq -y
+
+RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 111 ubuntu
+RUN usermod -aG docker ubuntu
+USER ubuntu
+WORKDIR /home/ubuntu
+
+
+# run command:
+# docker build -t jenkins-docker .
+# docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins-docker

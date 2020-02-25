@@ -1,0 +1,17 @@
+{
+	"presets": [
+		["@babel/env", {
+			"targets": {
+				"node": true
+			}
+		}],
+		"@babel/typescript"
+	],
+	"plugins": [
+		"babel-plugin-transform-typescript-metadata",
+		["@babel/plugin-proposal-decorators", {"legacy": true}],
+		["@babel/proposal-class-properties", { "loose": true }],
+		"@babel/proposal-object-rest-spread",
+		"@babel/plugin-proposal-optional-chaining"
+	]
+}

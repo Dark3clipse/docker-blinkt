@@ -1,0 +1,113 @@
+version: "3"
+
+services:
+  couchdb:
+    image: couchdb:2.3.1
+    volumes:
+      - ../dist/db/couchdb/conf:/opt/couchdb/etc/local.d
+      - data-couchdb:/opt/couchdb/data
+      - logs-couchdb:/opt/couchdb/log
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5984:5984"
+  neo4j:
+    image: neo4j:3.5.13
+    volumes:
+      - ../dist/db/neo4j/conf:/var/lib/neo4j/conf
+      - data-neo4j:/var/lib/neo4j/data
+      - logs-neo4j:/var/lib/neo4j/logs
+      - ../dist/db/neo4j/import:/import
+      - ../dist/db/neo4j/plugins:/plugins
+    environment:
+      - NEO4J_AUTH
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "7473:7473"
+      - "7474:7474"
+      - "7687:7687"
+  redis:
+    image: redis
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+  build:
+    build:
+      context: ../
+      dockerfile: ./build/backend/Dockerfile
+      args:
+        buildno: 1
+    image: hub.tuneblendr.com:9500/tuneblendr/server:latest
+    command: --help
+    depends_on:
+      - redis
+      - couchdb
+      - neo4j
+    deploy:
+      mode: global
+      restart_policy:
+        condition: none
+  setup:
+    image: hub.tuneblendr.com:9500/tuneblendr/server:latest
+    command: --setup -y
+    depends_on:
+      - build
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+  test:
+    image: hub.tuneblendr.com:9500/tuneblendr/server:latest
+    command: --test
+    volumes:
+      - ../dist/test:/usr/src/app/dist/test
+    deploy:
+      mode: global
+      restart_policy:
+        condition: none
+  server:
+    image: hub.tuneblendr.com:9500/tuneblendr/server:latest
+    command: --server
+    depends_on:
+      - redis
+      - couchdb
+      - neo4j
+    ports:
+      - "80:80"
+      - "443:443"
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      restart_policy:
+        condition: on-failure
+  worker:
+    image: hub.tuneblendr.com:9500/tuneblendr/server:latest
+    command: --worker
+    depends_on:
+      - redis
+      - couchdb
+      - neo4j
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      restart_policy:
+        condition: on-failure
+volumes:
+  data-couchdb:
+    driver: local
+  logs-couchdb:
+    driver: local
+  data-neo4j:
+    driver: local
+  logs-neo4j:
+    driver: local

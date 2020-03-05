@@ -3,12 +3,12 @@ FROM node:12.9.1
 
 # copy contents
 WORKDIR /usr/src/app
-ADD build ./build
-ADD src/ ./src
-COPY package.json .
-COPY package-lock.json .
-COPY settings.json .
-COPY tsconfig.json .
+ADD . ./build
+ADD ../src/ ./src
+COPY ../package.json .
+COPY ../package-lock.json .
+COPY ../settings.json .
+COPY ../tsconfig.json .
 
 # build
 RUN npm install \

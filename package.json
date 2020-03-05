@@ -9,7 +9,7 @@
     "start": "npm run build && npm run run",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker-build": "bash build/build.sh",
-    "docker-deploy": "docker stack deploy --compose-file build/docker-compose.yml docker-blinkt"
+    "docker-deploy": "docker stack deploy -c build/docker-compose.yml docker-blinkt"
   },
   "keywords": [],
   "author": "",

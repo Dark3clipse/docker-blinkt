@@ -34,8 +34,8 @@ export default class DockerBlinkt{
 	public start(): Promise<void>{
 		console.log("Hello World!");
 
-		let leds = new Blinkt();
-		leds.setup();
+		let blinkt = new Blinkt();
+		blinkt.setup();
 
 		return Promise.resolve();
 	}

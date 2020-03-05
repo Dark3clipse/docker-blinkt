@@ -19,7 +19,7 @@ fi
 sed -i "s#image: .*docker-blinkt#image: $DOCKER_REGISTRY/docker-blinkt#g" build/docker-compose.yml
 
 # build image
-docker build -t $DOCKER_REGISTRY/docker-blinkt:latest build
+docker build -f build/Dockerfile -t $DOCKER_REGISTRY/docker-blinkt:latest .
 
 # push image to registry
 docker push $DOCKER_REGISTRY/docker-blinkt:latest

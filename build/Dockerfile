@@ -10,7 +10,9 @@ COPY settings.json .
 COPY tsconfig.json .
 
 # build
-RUN npm install \
+RUN apt update -qqy \
+	&& apt install build-essential \
+	&& npm install \
 	&& npm run build
 
 # run-command

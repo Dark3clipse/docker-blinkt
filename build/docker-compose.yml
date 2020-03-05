@@ -5,7 +5,7 @@ services:
     build:
       context: ../
       dockerfile: ./build/Dockerfile
-    image: hub.tuneblendr.com:9500/docker-blinkt:latest
+    image: hub.tuneblendr.com/docker-blinkt:latest
     deploy:
       mode: replicated
       replicas: 1
